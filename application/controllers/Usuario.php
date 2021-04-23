@@ -22,7 +22,6 @@ class Usuario extends CI_Controller{
             $this->load->model('m_usuario');
             $retorno = $this->m_usuario->inserir($usuario,$senha,$nome,$tipo_usuario);
         }
-        
         echo json_encode($retorno);
     }
 
