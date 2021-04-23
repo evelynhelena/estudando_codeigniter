@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('No direct script acess allowed');
 class Usuario extends CI_Controller{
 
     public function insert(){
+        
         $usuario = $this->input->post('usuario');
         $senha = $this->input->post('senha');
         $nome = $this->input->post('nome');
