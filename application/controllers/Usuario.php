@@ -5,10 +5,16 @@ class Usuario extends CI_Controller{
 
     public function insert(){
         
-        $usuario = $this->input->post('usuario');
-        $senha = $this->input->post('senha');
-        $nome = $this->input->post('nome');
-        $tipo_usuario = $this->input->post('tipo_usuario');
+        $json = file_get_contents('php://input');
+        $resultado = json_decode($json);
+  
+
+        $usuario = $resultado->usuario;
+        $senha = $resultado->senha;
+        $nome = $resultado->nome;
+        $tipo_usuario = $resultado->tipo_usuario;
+
+      
 
         if(trim($usuario) == ''){
             $retorno = array('codigo' => 2, 'msg' => 'Usuário não informado');
@@ -27,9 +33,13 @@ class Usuario extends CI_Controller{
     }
 
     public function consultar(){
-        $usuario = $this->input->post('usuario');
-        $nome = $this->input->post('nome');
-        $tipo_usuario = strtoupper($this->input->post('tipo_usuario'));
+
+        $json = file_get_contents('php://input');
+        $resultado = json_decode($json);
+
+        $usuario = $resultado->usuario;
+        $nome = $resultado->nome;
+        $tipo_usuario = $resultado->tipo_usuario;
 
         if(trim($tipo_usuario) != 'ADMINISTRADOR' && trim($tipo_usuario) != 'COMUM' && trim($tipo_usuario) != ''){
             $retorno = array('codigo' => 5, 'msg' => 'Tipo de usuário inválido');
@@ -41,10 +51,14 @@ class Usuario extends CI_Controller{
     }
 
     public function alterar(){
-        $usuario = $this->input->post('usuario');
-        $senha = $this->input->post('senha');
-        $nome = $this->input->post('nome');
-        $tipo_usuario = $this->input->post('tipo_usuario');
+
+        $json = file_get_contents('php://input');
+        $resultado = json_decode($json);
+
+        $usuario = $resultado->usuario;
+        $senha = $resultado->senha;
+        $nome = $resultado->nome;
+        $tipo_usuario = $resultado->tipo_usuario;
 
         if(trim($tipo_usuario) != 'ADMINISTRADOR' && trim($tipo_usuario) != 'COMUM' && trim($tipo_usuario) != ''){
             $retorno = array('codigo' => 5, 'msg' => 'Tipo de usuário inválido');
@@ -61,7 +75,10 @@ class Usuario extends CI_Controller{
     }
 
     public function desativar(){
-        $usuario = $this->input->post('usuario');
+        $json = file_get_contents('php://input');
+        $resultado = json_decode($json);
+
+        $usuario = $resultado->usuario;
         if(trim($usuario == '')){
             $retorno = array('codigo' => 2, 'msg' => 'Usuário não informado');
         }else{
