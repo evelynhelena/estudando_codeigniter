@@ -1,35 +1,32 @@
 <?php 
 defined('BASEPATH') or exit('No direct script acess allowed');
 
-class Usuario extends CI_Controller{
+class UnidadeMedida extends CI_Controller{
 
-    public function insert(){
+    public function inserir(){
         
         $json = file_get_contents('php://input');
         $resultado = json_decode($json);
-  
+        $sigla = $resultado->sigla;
+        $descricao = $resultado->descricao;
         $usuario = $resultado->usuario;
-        $senha = $resultado->senha;
-        $nome = $resultado->nome;
-        $tipo_usuario = $resultado->tipo_usuario;
 
-        if(trim($usuario) == ''){
-            $retorno = array('codigo' => 2, 'msg' => 'Usuário não informado');
-        }elseif(trim($senha) == ''){
-            $retorno = array('codigo' => 3, 'msg' => 'Senha não informada');
-        }elseif(trim($nome) == ''){
-            $retorno = array('codigo' => 4, 'msg' => 'Nome não informado');
-        }elseif((strtoupper(trim($tipo_usuario)) != "ADMNISTRADOR" && strtoupper(trim($tipo_usuario)) != 'COMUM')
-            || trim($tipo_usuario) === ''){
-            $retorno = array('codigo' => 5, 'msg' => 'Topo de usuário inválido');
+        if(trim($sigla) == ''){
+            $retorno = array('codigo' => 2, 'msg' => 'Sigla não informada');
+        }elseif(trim($sigla) > 3){
+            $retorno = array('codigo' => 3, 'msg' => 'Sigla pode conter no maximo 3 caracteres');
+        }elseif(trim($descricao) == ''){
+            $retorno = array('codigo' => 4, 'msg' => 'Descrição não informado');
+        }elseif((trim($usuario) == '' || trim($usuario) == 0)){
+            $retorno = array('codigo' => 5, 'msg' => 'Usuario não informado');
         }else{
-            $this->load->model('m_usuario');
-            $retorno = $this->m_usuario->inserir($usuario,$senha,$nome,$tipo_usuario);
+            $this->load->model('m_unidmedida');
+            $retorno = $this->m_unidmedida->inserir($sigla,$descricao,$usuario);
         }
-        echo json_encode($retorno);
+       echo json_encode($retorno);
     }
 
-    public function consultar(){
+   /* public function consultar(){
 
         $json = file_get_contents('php://input');
         $resultado = json_decode($json);
@@ -45,9 +42,9 @@ class Usuario extends CI_Controller{
             $retorno = $this->m_usuario->consultar($usuario,$nome,$tipo_usuario);
         }
         echo json_encode($retorno);
-    }
+    }*/
 
-    public function alterar(){
+    /*public function alterar(){
 
         $json = file_get_contents('php://input');
         $resultado = json_decode($json);
@@ -69,9 +66,9 @@ class Usuario extends CI_Controller{
             $retorno = $this->m_usuario->alterar($usuario,$nome,$senha,$tipo_usuario);
         }
         echo json_encode($retorno);
-    }
+    }*/
 
-    public function desativar(){
+   /* public function desativar(){
         $json = file_get_contents('php://input');
         $resultado = json_decode($json);
 
@@ -84,7 +81,7 @@ class Usuario extends CI_Controller{
             $retorno = $this->m_usuario->desativar($usuario);
         }
         echo json_encode($retorno);
-    }
+    }*/
 
 }
 
