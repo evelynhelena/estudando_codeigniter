@@ -3,15 +3,22 @@ defined('BASEPATH') or exit('No direct script acess allowed');
 
 class M_unidmedida extends CI_Model{
     public function inserir($sigla,$descricao,$usuario){
-        $this->db->query("insert into tbl_unid_medida (sigla,descricao,fk_user,status) values('$sigla,$descricao,$usuario')");
-
-        if($this->db->affected_rows() > 0){
-            $dados = array('codigo' => 1, 'msg' => 'Unidade de medida Cadastrada Corretamente');
+        $sql = "select * from tbl_usuarios where id_usuario = '$usuario'";
+        $retorno = $this->db->query($sql);
+    
+        if($retorno->num_rows() > 0 ){
+            $this->db->query("insert into tbl_unid_medida(sigla,descricao,fk_user) values ('$sigla', '$descricao', '$usuario')");
+    
+            if($this->db->affected_rows() > 0){
+                $dados = array('codigo' => 1, 'msg' => 'Unidade de medida Cadastrada Corretamente');
+            }else{
+                $dados = array('codigo' => 6, 'msg' => 'Erro ao enviar ao servidor');
+            }
+            return $dados;
         }else{
-            $dados = array('codigo' => 6, 'msg' => 'Erro ao enviar ao servidor');
+            return array('codigo' => 7, 'msg' => 'Usuário não cadastrado no sistema');
         }
 
-        return $dados;
     }
 
   /*  public function consultar($usuario,$nome,$tipo_usuario){

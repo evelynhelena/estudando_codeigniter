@@ -1,5 +1,7 @@
 <?php 
 defined('BASEPATH') or exit('No direct script acess allowed');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: content-type');
 
 class Usuario extends CI_Controller{
 

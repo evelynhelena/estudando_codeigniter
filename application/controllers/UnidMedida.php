@@ -1,19 +1,23 @@
 <?php 
 defined('BASEPATH') or exit('No direct script acess allowed');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: content-type');
 
-class UnidadeMedida extends CI_Controller{
+class UnidMedida extends CI_Controller{
 
-    public function inserir(){
+    public function insert(){
         
         $json = file_get_contents('php://input');
         $resultado = json_decode($json);
+
         $sigla = $resultado->sigla;
         $descricao = $resultado->descricao;
         $usuario = $resultado->usuario;
 
         if(trim($sigla) == ''){
             $retorno = array('codigo' => 2, 'msg' => 'Sigla não informada');
-        }elseif(trim($sigla) > 3){
+        }elseif(strlen(trim($sigla)) > 3){
+            echo (strlen(trim($sigla)));
             $retorno = array('codigo' => 3, 'msg' => 'Sigla pode conter no maximo 3 caracteres');
         }elseif(trim($descricao) == ''){
             $retorno = array('codigo' => 4, 'msg' => 'Descrição não informado');
