@@ -36,6 +36,19 @@ class M_usuario extends CI_Model{
         return $dados;
     }
 
+    public function listAll(){
+        $sql = "select * from tbl_usuarios where estatus != 'D'";
+ 
+        $retorno = $this->db->query($sql);
+
+        if($retorno->num_rows() > 0){
+            $dados = array('codigo' => 1,'msg' => 'consulta efetuada com sucesso', 'data' => $retorno->result());
+        }else{
+            $dados = array('codigo' => 6,'msg' => 'Dados não encontrados');
+        }
+        return $dados;
+    }
+
     public function alterar($usuario,$nome,$senha,$tipo_usuario){
         $this->db->query("update tbl_usuarios set nome = '$nome', senha = '$senha', tipo ='$tipo_usuario' where usuario = '$usuario'");
 
@@ -48,8 +61,8 @@ class M_usuario extends CI_Model{
         return $dados;
     }
 
-    public function desativar($usuario){
-        $this->db->query("update tbl_usuarios set estatus = 'D' where usuario = '$usuario'");
+    public function desativar($id){
+        $this->db->query("update tbl_usuarios set estatus = 'D' where id_usuario = '$id'");
         if($this->db->affected_rows() > 0){
             $dados = array('codigo' => 1,'msg' => 'Usuário Desativado com sucesso');
         }else{
