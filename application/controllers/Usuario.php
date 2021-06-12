@@ -81,11 +81,7 @@ class Usuario extends CI_Controller{
         echo json_encode($retorno);
     }
 
-    public function desativar(){
-        $json = file_get_contents('php://input');
-        $resultado = json_decode($json);
-
-        $id = $resultado->id;
+    public function desativar($id){
         if(trim($id == '')){
             $retorno = array('codigo' => 2, 'msg' => 'Usuário não informado');
         }else{
