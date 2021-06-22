@@ -30,6 +30,26 @@ class UnidMedida extends CI_Controller{
        echo json_encode($retorno);
     }
 
+    
+    public function listAll(){
+
+        $this->load->model('m_unidmedida');
+        $retorno = $this->m_unidmedida->listAll();
+     
+        echo json_encode($retorno);
+    }
+
+    public function consultarId($id){
+        if(trim($id == '')){
+            $retorno = array('codigo' => 2, 'msg' => 'Unidade de medida não informada');
+        }else{
+            $this->load->model('m_unidmedida');
+
+            $retorno = $this->m_unidmedida->consultarId($id);
+        }
+        echo json_encode($retorno);
+    }
+
    /* public function consultar(){
 
         $json = file_get_contents('php://input');
@@ -72,20 +92,16 @@ class UnidMedida extends CI_Controller{
         echo json_encode($retorno);
     }*/
 
-   /* public function desativar(){
-        $json = file_get_contents('php://input');
-        $resultado = json_decode($json);
-
-        $usuario = $resultado->usuario;
-        if(trim($usuario == '')){
-            $retorno = array('codigo' => 2, 'msg' => 'Usuário não informado');
+    public function desativar($id){
+        if(trim($id == '')){
+            $retorno = array('codigo' => 2, 'msg' => 'Unidade de medida não informada');
         }else{
-            $this->load->model('m_usuario');
+            $this->load->model('m_unidmedida');
 
-            $retorno = $this->m_usuario->desativar($usuario);
+            $retorno = $this->m_unidmedida->desativar($id);
         }
         echo json_encode($retorno);
-    }*/
+    }
 
 }
 

@@ -49,6 +49,17 @@ class Usuario extends CI_Controller{
         echo json_encode($retorno);
     }
 
+    public function consultarID($id){
+        if(trim($id == '')){
+            $retorno = array('codigo' => 2, 'msg' => 'Usuário não informado');
+        }else{
+            $this->load->model('m_usuario');
+
+            $retorno = $this->m_usuario->consultarId($id);
+        }
+        echo json_encode($retorno);
+    }
+
     public function listAll(){
 
         $this->load->model('m_usuario');

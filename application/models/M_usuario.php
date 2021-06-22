@@ -36,6 +36,17 @@ class M_usuario extends CI_Model{
         return $dados;
     }
 
+    public function consultarId($id){
+        $sql = "select * from tbl_usuarios where id_usuario = '$id' and estatus != 'D'";
+        $retorno = $this->db->query($sql);
+        if($retorno->num_rows() > 0){
+            $dados = array('codigo' => 1,'msg' => 'consulta efetuada com sucesso', 'data' => $retorno->result());
+        }else{
+            $dados = array('codigo' => 6,'msg' => 'Dados não encontrados');
+        }
+        return $dados;
+    }
+
     public function listAll(){
         $sql = "select * from tbl_usuarios where estatus != 'D'";
  
