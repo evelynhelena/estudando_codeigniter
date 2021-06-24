@@ -30,6 +30,34 @@ class UnidMedida extends CI_Controller{
        echo json_encode($retorno);
     }
 
+    public function alterar(){
+        
+        $json = file_get_contents('php://input');
+        $resultado = json_decode($json);
+
+        $sigla = $resultado->sigla;
+        $descricao = $resultado->descricao;
+        $usuario = $resultado->usuario;
+        $id = $resultado->id;
+
+        if(trim($sigla) == ''){
+            $retorno = array('codigo' => 2, 'msg' => 'Sigla não informada');
+        }elseif(strlen(trim($sigla)) > 3){
+            echo (strlen(trim($sigla)));
+            $retorno = array('codigo' => 3, 'msg' => 'Sigla pode conter no maximo 3 caracteres');
+        }elseif(trim($descricao) == ''){
+            $retorno = array('codigo' => 4, 'msg' => 'Descrição não informado');
+        }elseif((trim($usuario) == '' || trim($usuario) == 0)){
+            $retorno = array('codigo' => 5, 'msg' => 'Usuario não informado');
+        }else if($id === 0){
+            $retorno = array('codigo' => 6, 'msg' => 'Id não informado');
+        }else{
+            $this->load->model('m_unidmedida');
+            $retorno = $this->m_unidmedida->alterar($sigla,$descricao,$usuario,$id);
+        }
+       echo json_encode($retorno);
+    }
+
     
     public function listAll(){
 
@@ -50,47 +78,7 @@ class UnidMedida extends CI_Controller{
         echo json_encode($retorno);
     }
 
-   /* public function consultar(){
 
-        $json = file_get_contents('php://input');
-        $resultado = json_decode($json);
-
-        $usuario = $resultado->usuario;
-        $nome = $resultado->nome;
-        $tipo_usuario = $resultado->tipo_usuario;
-
-        if(trim($tipo_usuario) != 'ADMINISTRADOR' && trim($tipo_usuario) != 'COMUM' && trim($tipo_usuario) != ''){
-            $retorno = array('codigo' => 5, 'msg' => 'Tipo de usuário inválido');
-        }else{
-            $this->load->model('m_usuario');
-            $retorno = $this->m_usuario->consultar($usuario,$nome,$tipo_usuario);
-        }
-        echo json_encode($retorno);
-    }*/
-
-    /*public function alterar(){
-
-        $json = file_get_contents('php://input');
-        $resultado = json_decode($json);
-
-        $usuario = $resultado->usuario;
-        $senha = $resultado->senha;
-        $nome = $resultado->nome;
-        $tipo_usuario = $resultado->tipo_usuario;
-
-        if(trim($tipo_usuario) != 'ADMINISTRADOR' && trim($tipo_usuario) != 'COMUM' && trim($tipo_usuario) != ''){
-            $retorno = array('codigo' => 5, 'msg' => 'Tipo de usuário inválido');
-        }elseif(trim($usuario == '')){
-            $retorno = array('codigo' => 2, 'msg' => 'Usuário não informado');
-        }elseif(trim($senha == '')){
-            $retorno = array('codigo' => 4, 'msg' => 'Semha não informada');
-        }else{
-            $this->load->model('m_usuario');
-
-            $retorno = $this->m_usuario->alterar($usuario,$nome,$senha,$tipo_usuario);
-        }
-        echo json_encode($retorno);
-    }*/
 
     public function desativar($id){
         if(trim($id == '')){

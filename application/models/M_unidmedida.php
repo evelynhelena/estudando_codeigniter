@@ -21,6 +21,17 @@ class M_unidmedida extends CI_Model{
 
     }
 
+    public function alterar($sigla,$descricao,$usuario,$id){
+        $this->db->query("update tbl_unid_medida set sigla = '$sigla', descricao = '$descricao', fk_user ='$usuario' where id = '$id'");
+        if($this->db->affected_rows() > 0){
+            $dados = array('codigo' => 1, 'msg' => 'Unidade de medida atualizada com sucesso');
+        }else{
+            $dados = array('codigo' => 6, 'msg' => 'Houve algum problema na atualização na tabela de unidade de medida');
+        }
+
+        return $dados;
+    }
+
     public function listAll(){
         $sql = "select * from tbl_unid_medida tum
         join tbl_usuarios tu on tum.fk_user = tu.id_usuario 
