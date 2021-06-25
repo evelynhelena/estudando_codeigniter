@@ -60,8 +60,8 @@ class M_usuario extends CI_Model{
         return $dados;
     }
 
-    public function alterar($usuario,$nome,$senha,$tipo_usuario){
-        $this->db->query("update tbl_usuarios set nome = '$nome', senha = '$senha', tipo ='$tipo_usuario' where usuario = '$usuario'");
+    public function alterar($usuario,$nome,$senha,$tipo_usuario,$id){
+        $this->db->query("update tbl_usuarios set nome = '$nome', senha = '$senha', tipo ='$tipo_usuario', usuario = '$usuario' where id_usuario = '$id'");
 
         if($this->db->affected_rows() > 0){
             $dados = array('codigo' => 1, 'msg' => 'Usuário atualizado com sucesso');

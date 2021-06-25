@@ -1,10 +1,14 @@
 <?php 
 defined('BASEPATH') or exit('No direct script acess allowed');
-
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: content-type');
 class Login extends CI_Controller{
     public function logar(){
-        $usuario = $this->input->post('usuario');
-        $senha = $this->input->post('senha');
+        $json = file_get_contents('php://input');
+        $resultado = json_decode($json);
+
+        $usuario = $resultado->usuario;
+        $senha = $resultado->senha;
 
         $this->load->model('m_acesso');
 

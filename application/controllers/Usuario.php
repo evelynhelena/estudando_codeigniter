@@ -77,6 +77,7 @@ class Usuario extends CI_Controller{
         $senha = $resultado->senha;
         $nome = $resultado->nome;
         $tipo_usuario = $resultado->tipo_usuario;
+        $id = $resultado->id;
 
         if(trim($tipo_usuario) != 'ADMINISTRADOR' && trim($tipo_usuario) != 'COMUM' && trim($tipo_usuario) != ''){
             $retorno = array('codigo' => 5, 'msg' => 'Tipo de usuário inválido');
@@ -84,10 +85,12 @@ class Usuario extends CI_Controller{
             $retorno = array('codigo' => 2, 'msg' => 'Usuário não informado');
         }elseif(trim($senha == '')){
             $retorno = array('codigo' => 4, 'msg' => 'Semha não informada');
+        }else if($id == 0){
+            $retorno = array('codigo' => 5, 'msg' => 'Id não informado');
         }else{
             $this->load->model('m_usuario');
 
-            $retorno = $this->m_usuario->alterar($usuario,$nome,$senha,$tipo_usuario);
+            $retorno = $this->m_usuario->alterar($usuario,$nome,$senha,$tipo_usuario,$id);
         }
         echo json_encode($retorno);
     }
